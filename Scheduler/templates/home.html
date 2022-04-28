@@ -1,0 +1,55 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="container outline-dark p-4 mb-5 bg-body d-flex flex-column rounded" style="max-width: 90%; height: 100%">
+        {% if role == 3 %}
+            <h2>All courses</h2>
+        {% elif role == 2 %}
+            <h2>Assigned Courses</h2>
+        {% else %}
+            <h2>Assigned Courses</h2>
+        {% endif %}
+          <table class="table">
+              <thead>
+                <tr>
+                    <th scope="col">Course Name</th>
+                    {% if role == 3 %}
+                        <th scope="col">Instructor</th>
+                    {% elif role == 1 %}
+                        <th scope="col">Lab Section</th>
+                    {% endif %}
+                    {% if role == 2 or role == 3 %}
+                        <th scope="col" class="m-1">Actions</th>
+                    {% endif %}
+                </tr>
+              </thead>
+              <tbody>
+              {% for course in courses %}
+                <tr>
+                  {% if role == 2 or role == 3 %}
+                    <td ><a href="{% url 'edit-course' course.courseName%}">{{ course.courseName }}</a></td>
+                    {% if role == 3 %}
+                       <td ><a href="/profile/{{ course.courseTeacher.email }}">{{ course.courseTeacher.name }}</a></td>
+                    {% endif %}
+                    <td style="text-align:right; width:130px"><a href="{% url 'create-lab' course.courseName%}">Create Lab</a></td>
+                    <td style="text-align:right; width:130px"><a href="{% url 'assign-TA-course' course.courseName%}">Assign TA</a></td>
+                  {% else %}
+                      <th scope="row"><a href="">{{ course.course.courseName }}</a></th>
+                      <th scope="row">{{ course.labName }}</th>
+                  {% endif %}
+                    <td> </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

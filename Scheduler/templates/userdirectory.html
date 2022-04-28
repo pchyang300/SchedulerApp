@@ -1,0 +1,47 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+    <div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container outline-dark p-4 mb-5 bg-body d-flex flex-column rounded"
+             style="max-width: 90%; height: 100%">
+            <h2>All Users</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        {% if role == 3 %}
+                            <th scope="row" class="text-secondary"><a
+                                    href="{% url 'edit-profile' user.email %}">{{ user.name }}</a></th>
+                        {% else %}
+                            <th scope="row" class="text-secondary">{{ user.name }}</th>
+                        {% endif %}
+                        <th scope="row" class="text-secondary">{{ user.email }}</th>
+                        <th scope="row" class="text-secondary">{{ user.phoneNumber }}</th>
+                        {% if user.permissionLevel == 1 %}
+                            <th scope="row" class="text-secondary">TA</th>
+                        {% elif user.permissionLevel == 2 %}
+                            <th scope="row" class="text-secondary">Instructor</th>
+                        {% elif user.permissionLevel == 3 %}
+                            <th scope="row" class="text-secondary">Admin</th>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

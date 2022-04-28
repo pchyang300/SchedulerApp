@@ -1,0 +1,52 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+<div class="container border p-4 mb-5 bg-body d-flex flex-row rounded" style="max-width: 1500px">
+    <div style="max-height: 500px; overflow: auto" class="container p-4 mb-5 bg-body d-flex flex-column rounded">
+        <h3 class="p-2 text-center">Existing Labs For {{ coursename}}</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Sections</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for spot in data %}
+
+                        {% for section in spot.labs %}
+                            <tr>
+                            <td>
+                                {{ section.labName }}
+                            </td>
+                            </tr>
+                        {% endfor %}
+                {% endfor %}
+              </tbody>
+        </table>
+    </div>
+    <div class="container p-4 mb-5 border-start bg-body d-flex flex-column rounded align-self-center" style="max-width: 500px">
+<h3 class="p-3 text-center">New Lab</h3>
+        <form class="d-flex flex-column" action="/createlab/" method="post">
+            {% csrf_token %}
+            <div class="form-floating mb-1">
+                <input id="coursename" name="coursename" value="{{ coursename }}" readonly class="border p-3">
+            </div>
+            <div class="form-floating mb-1">
+              <input type="number" name="labSection" class="form-control" id="floatingInput" placeholder="Lab Section" required>
+              <label for="floatingInput">Lab Section</label>
+            </div>
+            {% for message in messages %}
+                <p id="message" class="text-danger font-weight-bold mx-1 m-0">{{ message }}</p>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary mt-5">Create</button>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

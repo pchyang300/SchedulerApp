@@ -1,0 +1,57 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+{% block content %}
+    <div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container p-4 mb-5 bg-body d-flex  flex-row rounded" style="max-width: 1500px">
+            <div class="p-5 mb-4 bg-light rounded-3" style="width: 100%">
+                <form class="container-fluid py-5" method="POST" action="/editcourse/">
+                    {% csrf_token %}
+                    <div class="row g-2">
+                        <div class="col-md">
+                            <div class="form-floating mb-1">
+                                {% if coursename == None %}
+                                    <select class="form-control" id="coursename" name="coursename">
+                                        {% for course in courses %}
+                                            <option value="{{ course.courseName }}"
+                                                    class="font-weight-bold mx-1 m-0">{{ course.courseName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <input type="text" class="form-control" id="coursename" name="coursename"
+                                           value="{{ coursename }}" readonly>
+                                {% endif %}
+                                <label for="coursename">Course</label>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-1">
+                            <input type="text" class="form-control" name="newcoursename" id="newcoursename"
+                                   placeholder="New Course Name" required>
+                            <label for="newcoursename">New Course Name</label>
+                        </div>
+                        <div class="form-floating mb-1">
+                            <select class="form-control" id="newinstructor" name="newinstructor">
+                                <option value="{{ defaultTeacher.email }}"
+                                        class="font-weight-bold mx-1 m-0">{{ defaultTeacher.name }}</option>
+                                {% for teacher in teachers %}
+                                    <option value="{{ teacher.email }}"
+                                            class="font-weight-bold mx-1 m-0">{{ teacher.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="newinstructor">Instructor</label>
+                        </div>
+                        <button class="btn btn-primary btn-lg mt-3 align-self-start m-0" type="submit">Save</button>
+                        {% for message in messages %}
+                            <p id="message" class="text-danger font-weight-bold mx-1 m-0">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+{% block content %}
+    <div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container p-4 mb-5 bg-body d-flex  flex-row rounded" style="max-width: 1500px">
+            <div class="p-5 mb-4 bg-light rounded-3" style="width: 100%">
+                <form class="container-fluid py-5" method="POST" action="/editprofile/">
+                    <div class="row g-2">
+                        <div class="col-md">
+                            {% csrf_token %}
+                            <div class="form-floating mb-3">
+                                <input type="text" name="name" id="name" value="{{ user.name }}"
+                                       class="form-control font-weight-bold" style="font-size: 25px">
+                                <label for="name" class="px-2">Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="email" id="email" value="{{ user.email }}" readonly
+                                       class="form-control font-weight-bold"
+                                       style="font-size: 25px; border: none">
+                                <label for="email" class="px-2">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="phoneNumber" id="phoneNumber" value="{{ user.phoneNumber }}"
+                                       class="form-control font-weight-bold"
+                                       style="font-size: 25px; border: none">
+                                <label for="phoneNumber" class="px-2">Phone Number</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="address" id="address" value="{{ user.address }}"
+                                       class="form-control font-weight-bold"
+                                       style="font-size: 25px; border: none">
+                                <label for="address" class="px-2">Address</label>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg mt-3 align-self-start m-0" type="submit">Save</button>
+                            {% for message in messages %}
+                                <p id="message" class="text-danger font-weight-bold mx-1 m-0">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

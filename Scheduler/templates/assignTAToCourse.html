@@ -1,0 +1,86 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container border p-4 mb-5 bg-body d-flex flex-row rounded" style="max-width: 1500px">
+            <div style="max-height: 500px; overflow: auto"
+                 class="container p-4 mb-5 bg-body d-flex flex-column rounded">
+                <h3 class="p-2 text-center">Existing Assignments</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <!--<th scope="col">Course</th>-->
+                        <th scope="col">Section</th>
+                        <th scope="col">Assigned TAs</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in datas %}
+                        <tr>
+                            <!--<td>{{ data.courseName }}</td>-->
+                            <td>{{ data.section }}</td>
+                            <td>
+                                {% for ta in data.tas %}
+                                    {{ ta.name }}
+                                    <br>
+                                    {% empty %}
+                                    None
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="container p-4 mb-5 border-start bg-body d-flex flex-column rounded align-self-center"
+                 style="max-width: 500px">
+                <h3 class="p-3 text-center">Assign TA To Course</h3>
+                <form class="d-flex flex-column" action="/assignTAToCourse/" method="post">
+                    {% csrf_token %}
+                    <div class="row g-2">
+                        <div class="col-md">
+                            <div class="form-floating mb-1">
+                                {% if coursename == None %}
+                                    <select class="form-control" id="coursename" name="coursename">
+                                        {% for course in courses %}
+                                            <option value="{{ course.courseName }}"
+                                                    class="font-weight-bold mx-1 m-0">{{ course.courseName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <input class="form-control" id="coursename" name="coursename"
+                                           value="{{ coursename }}" readonly>
+                                {% endif %}
+                                <label for="coursename">Course</label>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-floating mb-1">
+                                <input type="number" class="form-control" name="courseSection" id="floatingInput"
+                                       placeholder="Section" required>
+                                <label for="floatingInput">Section</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-1">
+                        <select class="form-control" id="taEmail" name="taEmail" required>
+                            {% for ta in tas %}
+                                <option value="{{ ta.email }}" class="font-weight-bold mx-1 m-0">{{ ta.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="taEmail">TA</label>
+                    </div>
+                    {% for message in messages %}
+                        <p id="message" class="text-danger font-weight-bold mx-1 m-0">{{ message }}</p>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary mt-5">Assign</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

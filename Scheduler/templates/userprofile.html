@@ -1,0 +1,25 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block content %}
+    <div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container p-4 mb-5 bg-body d-flex flex-row rounded" style="max-width: 1500px">
+            <div class="p-5 mb-4 bg-light rounded-3" style="width: 100%">
+                <form class="container-fluid py-5" method="GET" action="/editprofile/{{ user.email }}">
+                    {% csrf_token %}
+                    <h1 class="display-5 fw-bold" id="name">{{ user.name }}</h1>
+                    <p class="col-md-8 fs-4">{{ user.email }}</p>
+                    <p class="col-md-8 fs-4">{{ user.phoneNumber }}</p>
+                    <p class="col-md-8 fs-4">{{ user.address }}</p>
+                    {% if canEdit %}
+                    <button class="btn btn-primary btn-lg mt-3 align-self-start m-0" onclick='location.replace("editprofile/{{ user.email }}")'>Edit</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

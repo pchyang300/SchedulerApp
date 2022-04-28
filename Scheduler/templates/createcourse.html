@@ -1,0 +1,39 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% block title %}
+    Create Course
+{% endblock %}
+
+{% block content %}
+    <div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container shadow p-4 mb-5 bg-body d-flex flex-column rounded" style="max-width: 700px">
+            <form class="d-flex flex-column" action="/createcourse/" method="post">
+                {% csrf_token %}
+                <h2 class="text-center mb-5">Create Course</h2>
+
+                <div class="row mb-3">
+                    <div class="col form-floating">
+                        <input type="text" class="form-control" name="coursename" placeholder="Course Name">
+                        <label for="floatingInput" class="px-4">Course Name</label>
+                    </div>
+                    <div class="col form-floating mb-1">
+                        <!--<input type="text" name="instructor" class="form-control" placeholder="Instructor email">-->
+                        <select class="form-select" id="instructor" name="instructor"
+                                aria-label="Floating label select example">
+                            {% for user in users %}
+                                <option value="{{ user.email }}"
+                                        class="font-weight-bold mx-1 m-0">{{ user.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="instructor" class="px-4">Instructor</label>
+                    </div>
+                </div>
+
+                {% for message in messages %}
+                    <p id="message" class="text-danger font-weight-bold mx-1 m-0">{{ message }}</p>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary mt-4">Create</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

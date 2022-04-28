@@ -1,0 +1,33 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <div style="height: 90vh" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container shadow p-4 mb-5 bg-body d-flex flex-column rounded" style="max-width: 360px">
+
+            <img src="{% static 'img.png' %}" alt="TA Scheduler" style="max-width: 250px" class="img-fluid m-auto mb-5">
+            <form class="d-flex flex-column" action="/login/" method="post">
+                {% csrf_token %}
+                <div class="form-floating mb-1">
+                    <input type="email" class="form-control" name="email" value="" id="floatingInput"
+                           placeholder="Email" required>
+                    <label for="floatingInput">Email</label>
+                </div>
+                <div class="form-floating mb-1">
+                    <input type="password" name="password" class="form-control" id="floatingPassword"
+                           placeholder="Password" required>
+                    <label for="floatingPassword">Password</label>
+                </div>
+
+                {% for message in messages %}
+                    <p id="message" class="text-danger font-weight-bold mx-1 m-0">{{ message }}</p>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary mt-5">Log In</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
